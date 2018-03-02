@@ -32,12 +32,36 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="run Query"
+        android:text="Run Query"
         android:onClick="onClickRunQuery"/>
 
-    <TextView
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvQuery"/>
+        android:text="select user_info"
+        android:onClick="onClickSelectUserInfo"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="select Result exercise"
+        android:onClick="onClickSelectResultExercise"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="select exercise"
+        android:onClick="onClickSelectExercise"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="delete user"
+        android:onClick="onClickDeleteUserInfo"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etQuery"/>
 
 </LinearLayout>

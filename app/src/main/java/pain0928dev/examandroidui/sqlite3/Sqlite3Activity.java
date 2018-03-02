@@ -17,8 +17,7 @@ public class Sqlite3Activity extends AppCompatActivity {
 
     TextView tvResult;
     EditText etInput;
-    TextView tvQuery;
-
+    EditText etQuery;
 
     DatabaseHelper databaseHelper;
 
@@ -29,16 +28,16 @@ public class Sqlite3Activity extends AppCompatActivity {
 
         tvResult = (TextView)findViewById(R.id.tvResult);
         etInput = (EditText) findViewById(R.id.etInput);
-        tvQuery = (TextView)findViewById(R.id.tvQuery);
+        etQuery = (EditText)findViewById(R.id.etQuery);
 
         databaseHelper = new DatabaseHelper(this);
 
         // 외래키 사용을 위해서 환경 설정이 필요함
         databaseHelper.onConfigure(databaseHelper.getWritableDatabase());
-        databaseHelper.onUpgrade(databaseHelper.getWritableDatabase(), 1, 1);
+        //databaseHelper.onUpgrade(databaseHelper.getWritableDatabase(), 1, 1);
 
         //insertUserInfoData();
-        insertExerciseResult();
+        //insertExerciseResult();
 
         setExamQuery();
     }
@@ -57,13 +56,23 @@ public class Sqlite3Activity extends AppCompatActivity {
     public void insertExerciseResult(){
 
         // idx, emgAvr1, emgAvr2, pre_exercise_idx_fk, user_info_id_fk
-        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
 
         try {
             sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '100', '100', null, 1)");
-            sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '101', '101', 1, 1)");
+            sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '101', '101', 1,    1)");
             sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '102', '102', null, 1)");
-            sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '103', '103', 3, 1)");
+            sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '103', '103', 3,    1)");
+
+            sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '100', '100', null, 2)");
+            sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '101', '101', 5,    2)");
+            sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '102', '102', null, 2)");
+            sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '103', '103', 7,    2)");
+
+            sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '100', '100', null, 3)");
+            sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '101', '101', 9,    3)");
+            sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '102', '102', null, 3)");
+            sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '103', '103', 11,   3)");
             //sqLiteDatabase.execSQL("INSERT INTO exercise_result VALUES(null, '105', '105', null, 6)");
         } catch (RuntimeException e) {
             Log.e(TAG,"Msg: " + e);
@@ -82,43 +91,11 @@ public class Sqlite3Activity extends AppCompatActivity {
             Cursor cursor;
             cursor = sqLiteDatabase.rawQuery(inputQuery, null);
 
-            /*
-            // user_info
-            cursor.getColumnIndex("id")
-            cursor.getColumnIndex("name")
-            cursor.getColumnIndex("birthday")
-            cursor.getColumnIndex("sex")
-            cursor.getColumnIndex("part");
-            */
-
-            /*
-            // exercise_result
-            cursor.getColumnIndex("idx")
-            cursor.getColumnIndex("emg_avr1")
-            cursor.getColumnIndex("emg_avr2")
-            cursor.getColumnIndex("pre_exercise_idx_fk")
-            cursor.getColumnIndex("user_info_id_fk")
-            */
-
             String resultQuery = "";
 
             try {
-            /*
-            while (cursor.moveToNext()) {
-                resultQuery += cursor.getString(0);
-                resultQuery += " ";
-                resultQuery += cursor.getString(1);
-                resultQuery += " ";
-                resultQuery += cursor.getString(2);
-                resultQuery += " ";
-                resultQuery += cursor.getString(3);
-                resultQuery += " ";
-            }
-            */
-
 
                 while (cursor.moveToNext()) {
-                    /*
                     resultQuery += cursor.getString(cursor.getColumnIndex("idx"));
                     resultQuery += " ";
                     resultQuery += cursor.getString(cursor.getColumnIndex("emg_avr1"));
@@ -129,17 +106,7 @@ public class Sqlite3Activity extends AppCompatActivity {
                     resultQuery += " ";
                     resultQuery += cursor.getString(cursor.getColumnIndex("user_info_id_fk"));
                     resultQuery += "\n";
-                    */
-                    resultQuery += cursor.getString(0);
-                    resultQuery += " ";
-                    resultQuery += cursor.getString(1);
-                    resultQuery += " ";
-                    resultQuery += cursor.getString(2);
-                    resultQuery += " ";
-                    resultQuery += cursor.getString(3);
-                    resultQuery += " ";
-                    resultQuery += cursor.getString(4);
-                    resultQuery += "\n";
+
                 }
             } catch (IllegalStateException e){
                 Log.e(TAG, "Msg: " + e);
@@ -154,6 +121,134 @@ public class Sqlite3Activity extends AppCompatActivity {
         }
     }
 
+    public void onClickSelectUserInfo(View v){
+        String query = "select * from user_info";
+
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+
+        Cursor cursor;
+        cursor = sqLiteDatabase.rawQuery(query, null);
+
+        String resultQuery = "";
+
+        try {
+            while (cursor.moveToNext()) {
+                resultQuery += cursor.getString(cursor.getColumnIndex("id"));
+                resultQuery += " ";
+                resultQuery += cursor.getString(cursor.getColumnIndex("name"));
+                resultQuery += " ";
+                resultQuery += cursor.getString(cursor.getColumnIndex("birthday"));
+                resultQuery += " ";
+                resultQuery += cursor.getString(cursor.getColumnIndex("sex"));
+                resultQuery += " ";
+                resultQuery += cursor.getString(cursor.getColumnIndex("part"));
+                resultQuery += "\n";
+            }
+
+        } catch (IllegalStateException e) {
+            Log.e(TAG, "Msg:" + e );
+        }
+
+        if(resultQuery.isEmpty()){
+            tvResult.setText("There is no Data");
+        }
+
+        Log.i(TAG, "result:" + resultQuery);
+        tvResult.setText(resultQuery);
+    }
+
+    public void onClickSelectResultExercise(View v){
+
+        //String query = "select idx from exercise_result where pre_exercise_idx_fk IS NULL";
+        //String query = "select idx from exercise_result where pre_exercise_idx_fk NOT NULL";
+        // 아이디, 이름, 사전idx, 사전emg1, 사전emg2, 사후idx, 사후emg1, 사후emg2
+        String query = "select C.id, C.name, A.idx, A.emg_avr1, A.emg_avr2, B.idx, B.emg_avr1, B.emg_avr2 from exercise_result AS A, exercise_result AS B, user_info AS C where A.idx = B.pre_exercise_idx_fk AND C.id = A.user_info_id_fk";
+
+
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+
+        Cursor cursor;
+        cursor = sqLiteDatabase.rawQuery(query, null);
+
+        String resultQuery = "";
+
+        try {
+            while (cursor.moveToNext()) {
+                resultQuery += cursor.getString(0);
+                resultQuery += " ";
+                resultQuery += cursor.getString(1);
+                resultQuery += " ";
+                resultQuery += cursor.getString(2);
+                resultQuery += " ";
+                resultQuery += cursor.getString(3);
+                resultQuery += " ";
+                resultQuery += cursor.getString(4);
+                resultQuery += " ";
+                resultQuery += cursor.getString(5);
+                resultQuery += " ";
+                resultQuery += cursor.getString(6);
+                resultQuery += " ";
+                resultQuery += cursor.getString(7);
+                resultQuery += "\n";
+            }
+
+         } catch (IllegalStateException e) {
+            Log.e(TAG, "Msg:" + e );
+        }
+
+        if(resultQuery.isEmpty()){
+            tvResult.setText("There is no Data");
+        }
+
+        Log.i(TAG, "result:" + resultQuery);
+        tvResult.setText(resultQuery);
+    }
+
+    public void onClickSelectExercise(View v){
+        String query = "select * from exercise_result";
+
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+
+        Cursor cursor;
+        cursor = sqLiteDatabase.rawQuery(query, null);
+
+        String resultQuery = "";
+
+        try {
+            while (cursor.moveToNext()) {
+                resultQuery += cursor.getString(cursor.getColumnIndex("idx"));
+                resultQuery += " ";
+                resultQuery += cursor.getString(cursor.getColumnIndex("emg_avr1"));
+                resultQuery += " ";
+                resultQuery += cursor.getString(cursor.getColumnIndex("emg_avr2"));
+                resultQuery += " ";
+                resultQuery += cursor.getString(cursor.getColumnIndex("pre_exercise_idx_fk"));
+                resultQuery += " ";
+                resultQuery += cursor.getString(cursor.getColumnIndex("user_info_id_fk"));
+                resultQuery += "\n";
+            }
+
+        } catch (IllegalStateException e) {
+            Log.e(TAG, "Msg:" + e );
+        }
+
+        if(resultQuery.isEmpty()){
+            tvResult.setText("There is no Data");
+        }
+
+        Log.i(TAG, "result:" + resultQuery);
+        tvResult.setText(resultQuery);
+    }
+
+    public void onClickDeleteUserInfo(View v){
+        String query = "delete from user_info where id = 1";
+
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.close();
+
+    }
+
     public void getFiled(){
         // SELECT * FROM exercise_result join exercise on exercise.idx = exercise.pre_exercise;
     }
@@ -162,6 +257,6 @@ public class Sqlite3Activity extends AppCompatActivity {
         String query = "select * from exercise_result where idx = pre_exercise_idx_fk;\n" +
                 "select * from user_info;\n";
 
-        tvQuery.setText(query);
+        etQuery.setText(query);
     }
 }

@@ -44,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements SqlImp {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS exercise_result");
-        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS user_info");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS user_info");
         onCreate(sqLiteDatabase);
     }
 
