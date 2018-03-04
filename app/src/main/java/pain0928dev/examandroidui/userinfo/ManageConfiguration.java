@@ -19,8 +19,8 @@ public class ManageConfiguration {
     final String USER_BODYPART = "user_bodypart";
 
     private Context context;
-    SharedPreferences spref;
-    SharedPreferences.Editor spEditor;
+    private SharedPreferences spref;
+    private SharedPreferences.Editor spEditor;
 
     // Saved UserInfo
     private String userName;
@@ -71,18 +71,22 @@ public class ManageConfiguration {
 
     public void udpateUserName(String name){
         spEditor.putString(USER_NAME, name);
+        spEditor.commit();
     }
 
     public void udpateUserBirth(String birth){
         spEditor.putString(USER_BIRTH, birth);
+        spEditor.commit();
     }
 
     public void updateUserGender(String gender){
         spEditor.putString(USER_GENDER, gender);
+        spEditor.commit();
     }
 
     public void setUserBodyPart(String bodyPart){
         spEditor.putString(USER_BODYPART, bodyPart);
+        spEditor.commit();
     }
 
     private static ManageConfiguration manageConfiguration;
