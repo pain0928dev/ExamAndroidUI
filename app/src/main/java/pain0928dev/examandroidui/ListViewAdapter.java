@@ -66,8 +66,9 @@ public class ListViewAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 } else if(position == 1){
 
-                } else {
-
+                } else if(position == 2){
+                    Intent intent = new Intent(view.getContext(), DatePickerActivity.class);
+                    context.startActivity(intent);
                 }
 
 

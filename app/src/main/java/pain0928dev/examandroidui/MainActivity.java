@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         // add list item
         listViewAdapter.addItem(ContextCompat.getDrawable(this, R.mipmap.ic_done_white_36dp), "Sqlite3 Test", "Android Sqlite3 테스트 UI 화면 입니다");
         listViewAdapter.addItem(ContextCompat.getDrawable(this, R.mipmap.ic_done_white_36dp), "Notification Test", "Android Notification 테스트 UI 화면 입니다");
+        listViewAdapter.addItem(ContextCompat.getDrawable(this, R.mipmap.ic_done_white_36dp), "Date Picker Test", "Android Data Picker 테스트 UI 화면 입니다");
 
         ManageConfiguration.getInstance().init(getApplicationContext());
 

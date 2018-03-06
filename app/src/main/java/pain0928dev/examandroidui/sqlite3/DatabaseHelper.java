@@ -25,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements SqlImp {
                         "            name TEXT NOT NULL,\n" +
                         "            birthday DATE NOT NULL,\n" +
                         "            sex TEXT NOT NULL,\n" +
-                        "            part TEXT NOT NULL\n" +
+                        "            leg_part TEXT NOT NULL\n" +
                         "            );";
 
 

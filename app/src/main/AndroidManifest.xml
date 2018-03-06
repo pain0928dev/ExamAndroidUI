@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".sqlite3.Sqlite3Activity" />
-        <activity android:name=".userinfo.UserInfoActivity"></activity>
+        <activity android:name=".userinfo.UserInfoActivity" />
+        <activity android:name=".DatePickerActivity"></activity>
     </application>
 
 </manifest>
