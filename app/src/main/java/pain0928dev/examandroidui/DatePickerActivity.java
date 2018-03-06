@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 public class DatePickerActivity extends AppCompatActivity {
 
     final String TAG = "DatePickerActivity";
@@ -18,6 +21,7 @@ public class DatePickerActivity extends AppCompatActivity {
     Context context;
     DatePicker datePicker;
     Button btnOk;
+    int year, month, day;
     String currentDate;
 
     @Override
@@ -25,24 +29,47 @@ public class DatePickerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_date_picker);
 
-
         datePicker = (DatePicker)findViewById(R.id.datepicker);
+        btnOk = (Button)findViewById(R.id.btnWindow);
 
         context = this;
         currentDate = "";
 
-            datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
-                @Override
-                public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-                    currentDate = String.format("%d-%d-%d", i, i1+1, i2);
-                    Log.v(TAG, "date:" + currentDate);
-                    //Toast.makeText(context, "현재날짜:" + date, Toast.LENGTH_SHORT).show();
-                }
-            });
+        GregorianCalendar calendar = new GregorianCalendar();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day= calendar.get(Calendar.DAY_OF_MONTH);
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////
+        datePicker.init(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth()
+                , new DatePicker.OnDateChangedListener(){
+            @Override
+                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth){
+                currentDate = String.format("%d-%d-%d", year, monthOfYear+1, dayOfMonth);
+            }
+                });
     }
 
     public void onClickOk(View v){
 
-        Toast.makeText(this, "현재날짜:" + currentDate, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "현재날짜:" + currentDate, Toast.LENGTH_SHORT).show();
+        new DatePickerDialog(this, dateSetListener, year, month, day).show();
     }
+
+    public void updateDate(){
+        btnOk.setText(currentDate);
+    }
+
+    private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            // TODO Auto-generated method stub
+            currentDate = String.format("%d / %d / %d", year,monthOfYear+1, dayOfMonth);
+            updateDate();
+            Toast.makeText(context, currentDate, Toast.LENGTH_SHORT).show();
+        }
+    };
+
 }
