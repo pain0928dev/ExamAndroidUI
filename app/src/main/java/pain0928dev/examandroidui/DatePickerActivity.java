@@ -49,12 +49,15 @@ public class DatePickerActivity extends AppCompatActivity {
                 currentDate = String.format("%d-%d-%d", year, monthOfYear+1, dayOfMonth);
             }
                 });
+
+
     }
 
     public void onClickOk(View v){
 
         //Toast.makeText(this, "현재날짜:" + currentDate, Toast.LENGTH_SHORT).show();
-        new DatePickerDialog(this, dateSetListener, year, month, day).show();
+        //new DatePickerDialog(this, dateSetListener, year, month, day).show();
+        new DatePickerDialog(this, android.R.style.Theme_Holo_Dialog, dateSetListener, year, month, day).show();
     }
 
     public void updateDate(){
@@ -66,7 +69,7 @@ public class DatePickerActivity extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             // TODO Auto-generated method stub
-            currentDate = String.format("%d / %d / %d", year,monthOfYear+1, dayOfMonth);
+            currentDate = String.format("%d-%d-%d", year,monthOfYear+1, dayOfMonth);
             updateDate();
             Toast.makeText(context, currentDate, Toast.LENGTH_SHORT).show();
         }
