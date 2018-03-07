@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#FFFFFF"
     tools:context="pain0928dev.examandroidui.DatePickerActivity">
 
     <TextView
@@ -17,17 +18,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:datePickerMode="spinner"
-        android:calendarViewShown="false" >
+        android:calendarViewShown="false" />
 
-    </DatePicker>
 
     <Button
         android:id="@+id/btnWindow"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Date"
-        android:onClick="onClickOk"
-        />
+        android:background="#FFFFFF"
+        android:text="생년월일 선택"
+        android:onClick="onClickOk" />
 
 
 
